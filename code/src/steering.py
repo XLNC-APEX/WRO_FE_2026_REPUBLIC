@@ -3,7 +3,9 @@ from pybricks.ev3devices import GyroSensor, Motor
 from pybricks.tools import StopWatch
 from utils import constrain, normalize_angle
 
-Kp = 0.4
+# TODO: add kp for clockwise and counterclockwise
+COUNTER_Kp = 0.4
+Kp = 0.8
 Ki = 0
 Kd = 0.1
 
@@ -32,7 +34,7 @@ class Steering:
         self.motor.reset_angle(0)
         self.gyro.reset_angle(0)
 
-    def pid(self, pixy=0.0, wall=0.0):
+    def pid(self, clockwise=True, pixy=0.0, wall=0.0):
         current_time = self.timer.time() / 1000
         dt = current_time - self.last_time
         self.last_time = current_time

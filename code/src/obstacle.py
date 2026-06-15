@@ -81,33 +81,19 @@ parking_out()
 
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
-    if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
+    if abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
-        if (
-            (line != ColorID.WHITE)
-            and (not direction_set)
-            and (abs(new_distance - distance) > START_CHECK_DISTANCE)
-        ):
-            direction_set = True
-            wait(300)
-            if line == ColorID.BLUE:
-                clockwise = False
-
         is_turning = False
 
-        if direction_set and clockwise and line == ColorID.ORANGE:
+        if line != ColorID.WHITE:
             ev3.speaker.beep()
-            steering.increase_target_angle(-90)
             is_turning = True
             distance = new_distance
             passed_lines += 1
-            wait(300)
-        elif direction_set and not clockwise and line == ColorID.BLUE:
-            ev3.speaker.beep()
-            steering.increase_target_angle(90)
-            is_turning = True
-            distance = new_distance
-            passed_lines += 1
+            if clockwise:
+                steering.increase_target_angle(-90)
+            else:
+                steering.increase_target_angle(90)
             wait(300)
 
     pixy_correction = obstacle_detection.get_correction()
