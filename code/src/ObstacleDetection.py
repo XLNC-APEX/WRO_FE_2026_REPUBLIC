@@ -14,9 +14,16 @@ Kp = 0.3
 
 # v2
 # RED_CURVE = Curve2D(0.003517, -1.282576, 129.94021)
-RED_CURVE = Curve2D(0.003517, -1.282576, 120)
-GREEN_CURVE = Curve2D(-0.004968, 1.319625, 215.021075)
 
+# v3
+# RED_CURVE = Curve2D(0.003517, -1.282576, 120)
+# GREEN_CURVE = Curve2D(-0.004968, 1.319625, 215.021075)
+
+# v4
+# red: y = 124.599494*x^0 + -1.865848*x^1 + 0.007155*x^2
+# green: y = 187.050712*x^0 + 1.880561*x^1 + -0.007322*x^2
+RED_CURVE = Curve2D(0.007155, -1.865848, 124.599494)
+GREEN_CURVE = Curve2D(-0.007322, 1.880561, 187.050712)
 
 def filter(block: Block) -> bool:
     if (block.height * block.width) > MIN_OBSTACLE_AREA:

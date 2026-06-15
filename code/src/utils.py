@@ -69,7 +69,7 @@ class ColorHSV:
         self.s: float = s
         self.v: float = v
 
-    def from_rgb(rgb: tuple[int, int, int]) -> ColorHSV:
+    def from_rgb(self, rgb: tuple[int, int, int]) -> ColorHSV:
         INV_255 = 1 / 255
         r, g, b = (val * INV_255 for val in rgb)
         cmax, cmax_i = max((val, idx) for idx, val in enumerate(rgb))
