@@ -101,12 +101,14 @@ while passed_lines < 12:
             is_turning = True
             distance = new_distance
             passed_lines += 1
+            wait(300)
         elif direction_set and not clockwise and line == ColorID.BLUE:
             ev3.speaker.beep()
             steering.increase_target_angle(90)
             is_turning = True
             distance = new_distance
             passed_lines += 1
+            wait(300)
 
     pixy_correction = obstacle_detection.get_correction()
 
