@@ -1,12 +1,18 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE, OBSTACLE_HIGH_SPEED, OBSTACLE_LOW_SPEED, START_CHECK_DISTANCE
+from config import (
+    CHECK_DISTANCE,
+    OBSTACLE_HIGH_SPEED,
+    OBSTACLE_LOW_SPEED,
+    START_CHECK_DISTANCE,
+    MAX_STEER,
+)
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
 from pixy2 import Pixy2
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
-from pybricks.tools import wait
+from pybricks.tools import wait, StopWatch
 from steering import Steering
 from utils import get_distance, ColorID
 from wall_avoidance import DistanceKeeperOneUltrasonic
@@ -35,7 +41,6 @@ rear_motor.reset_angle(0)
 
 ev3.speaker.beep()
 
-rear_motor.run(OBSTACLE_HIGH_SPEED)
 
 direction_set = False
 is_turning = False
@@ -43,11 +48,46 @@ clockwise = True
 wall_correction = 0
 pixy_correction = 0
 
+
+def parking_out():
+    dist = ultrasonic.distance()
+    print(dist)
+    print(dist)
+    print(dist)
+    if dist > 200:
+        print("cw, steer +max")
+        clockwise = True
+        steering_motor.track_target(-45)
+    else:
+        print("ccw, steer -max")
+        clockwise = False
+        steering_motor.track_target(45)
+    direction_set = True
+    wait(200)
+    rear_motor.run(OBSTACLE_HIGH_SPEED)
+    timer = StopWatch()
+    start = timer.time()
+    while timer.time() - start < 800:
+        if clockwise:
+            steering_motor.track_target(-45)
+        else:
+            steering_motor.track_target(45)
+    print(steering_motor.angle())
+
+    wait(100)
+
+
+parking_out()
+
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
     if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
-        if (line != ColorID.WHITE) and (not direction_set) and (abs(new_distance - distance) > START_CHECK_DISTANCE):
+        if (
+            (line != ColorID.WHITE)
+            and (not direction_set)
+            and (abs(new_distance - distance) > START_CHECK_DISTANCE)
+        ):
             direction_set = True
             wait(300)
             if line == ColorID.BLUE:
