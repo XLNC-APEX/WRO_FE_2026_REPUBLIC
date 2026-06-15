@@ -96,14 +96,18 @@ while passed_lines < 12:
     # )
     # wait(10)
     wait(10)
+    
+pixy_correction = 0
+wall_correction = 0
 
 rear_motor.run(OBSTACLE_LOW_SPEED)
 finish_dist = get_distance(rear_motor)
 while abs(get_distance(rear_motor) - finish_dist) < 2000:
-    correction = wall_distance_keeper.correction(
+    wall_correction = wall_distance_keeper.correction(
         clockwise, steering.heading, steering.target_angle
     )
-    steering.pid(wall=wall_correction)
+    pixy_correction = obstacle_detection.get_correction()
+    steering.pid(wall=wall_correction, pixy=pixy_correction)
 
 rear_motor.stop()
 
