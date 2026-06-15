@@ -68,12 +68,12 @@ while passed_lines < 12:
             distance = new_distance
             passed_lines += 1
 
+    pixy_correction = obstacle_detection.get_correction()
 
-    if direction_set:
+    if direction_set and not clockwise:
         wall_correction = wall_distance_keeper.correction(
             clockwise, steering.heading, steering.target_angle
         )
-        pixy_correction = obstacle_detection.get_correction()
     else:
         wall_correction = 0
 
@@ -95,7 +95,7 @@ while passed_lines < 12:
     #     rear_motor.speed()
     # )
     # wait(10)
-    # wait(20)
+    wait(10)
 
 rear_motor.run(OBSTACLE_LOW_SPEED)
 finish_dist = get_distance(rear_motor)
