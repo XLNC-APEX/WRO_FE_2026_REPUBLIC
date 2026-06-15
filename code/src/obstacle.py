@@ -1,5 +1,10 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE, OBSTACLE_HIGH_SPEED, OBSTACLE_LOW_SPEED, START_CHECK_DISTANCE
+from config import (
+    CHECK_DISTANCE,
+    OBSTACLE_HIGH_SPEED,
+    OBSTACLE_LOW_SPEED,
+    START_CHECK_DISTANCE, MAX_STEER,
+)
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
 from pixy2 import Pixy2
@@ -35,7 +40,6 @@ rear_motor.reset_angle(0)
 
 ev3.speaker.beep()
 
-rear_motor.run(OBSTACLE_HIGH_SPEED)
 
 direction_set = False
 is_turning = False
@@ -43,11 +47,34 @@ clockwise = True
 wall_correction = 0
 pixy_correction = 0
 
+
+def parking_out():
+    if ultrasonic.distance() > 20:
+        clockwise = True
+        steering.target_angle = MAX_STEER
+
+    else:
+        clockwise = False
+        steering.target_angle = -MAX_STEER
+
+    direction_set = True
+    steering.pid()
+    wait(100)
+
+    rear_motor.run(OBSTACLE_HIGH_SPEED)
+    wait(100)
+
+parking_out()
+
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
     if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
-        if (line != ColorID.WHITE) and (not direction_set) and (abs(new_distance - distance) > START_CHECK_DISTANCE):
+        if (
+            (line != ColorID.WHITE)
+            and (not direction_set)
+            and (abs(new_distance - distance) > START_CHECK_DISTANCE)
+        ):
             direction_set = True
             wait(300)
             if line == ColorID.BLUE:
