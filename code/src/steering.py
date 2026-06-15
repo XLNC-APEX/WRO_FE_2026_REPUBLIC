@@ -3,7 +3,7 @@ from pybricks.ev3devices import GyroSensor, Motor
 from pybricks.tools import StopWatch
 from utils import constrain, normalize_angle
 
-Kp = 1.2
+Kp = 0.4
 Ki = 0
 Kd = 0.1
 
