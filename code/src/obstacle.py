@@ -3,7 +3,8 @@ from config import (
     CHECK_DISTANCE,
     OBSTACLE_HIGH_SPEED,
     OBSTACLE_LOW_SPEED,
-    START_CHECK_DISTANCE, MAX_STEER,
+    START_CHECK_DISTANCE,
+    MAX_STEER,
 )
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
@@ -11,7 +12,7 @@ from pixy2 import Pixy2
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
-from pybricks.tools import wait
+from pybricks.tools import wait, StopWatch
 from steering import Steering
 from utils import get_distance, ColorID
 from wall_avoidance import DistanceKeeperOneUltrasonic
@@ -49,20 +50,32 @@ pixy_correction = 0
 
 
 def parking_out():
-    if ultrasonic.distance() > 20:
+    dist = ultrasonic.distance()
+    print(dist)
+    print(dist)
+    print(dist)
+    if dist > 200:
+        print("cw, steer +max")
         clockwise = True
-        steering.target_angle = MAX_STEER
-
+        steering_motor.track_target(-45)
     else:
+        print("ccw, steer -max")
         clockwise = False
-        steering.target_angle = -MAX_STEER
-
+        steering_motor.track_target(45)
     direction_set = True
-    steering.pid()
+    wait(200)
+    rear_motor.run(OBSTACLE_HIGH_SPEED)
+    timer = StopWatch()
+    start = timer.time()
+    while timer.time() - start < 800:
+        if clockwise:
+            steering_motor.track_target(-45)
+        else:
+            steering_motor.track_target(45)
+    print(steering_motor.angle())
+
     wait(100)
 
-    rear_motor.run(OBSTACLE_HIGH_SPEED)
-    wait(100)
 
 parking_out()
 
