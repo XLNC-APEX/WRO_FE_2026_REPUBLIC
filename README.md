@@ -202,6 +202,18 @@ The software stack is built using **Pybricks (MicroPython)** and follows a modul
 
 After careful selection and [research](research/programming_environment_choice.md), for EV3, we chose an [experimental version of Pybricks](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3) with **significantly faster execution time** due to bare metal firmware and without the use of an SD card.
 
+### Running the code
+
+For uploading program to EV3 brick we use [pybricksdev](https://github.com/pybricks/pybricksdev). This package contains both command line tools and a library to call equivalent operations from within a Python script.
+
+`pybricksdev` requires Python 3.10 or higher.
+
+- For Windows, use the official Python installer or the Windows Store.
+- For Mac, use the official Python installer or Homebrew (brew install python@3.12).
+- For Linux, use the distro provided python3.12 or if not available, use a Python runtime version manager such as asdf or pyenv.
+
+`pybricksdev run usb path/to/file`
+
 ### Open challenge:
 
 For the open challenge, we chose a simple strategy of driving along the outer wall using a gyroscope and ultrasonic sensor. Turn and direction detection occur using a color sensor.
