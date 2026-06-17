@@ -248,6 +248,26 @@ When the camera detects an obstacle, gyroscope and ultrasonic correction are dis
 | --- | --- |
 | ![Red obstacle trajectory](research/obstacle/red-nonlinear-regression.png) | ![Green obstacle trajectory](research/obstacle/green-nonlinear-regression.png) |
 
+# Future plans & Problems
+
+## Problems
+ - Pixy2 is unstable, feature limited, power inefficient(heats up)
+
+Plan: Try OpenMV H7 camera. It is programmable.
+
+ - EV3 platform has limitations
+    - low amount of ports
+    - Limited programming ability
+    - Big size and weight
+    - Big slow motor
+
+Plan: Build a robot with best available components like Pi Pico 2 microcontroller
+([We already built it](https://github.com/XLNC-APEX/WRO_FE_2026_NATIONAL), but did not have time to program and document it)
+
+ - Steering using EV3 medium motor requires finding extreme angles at initialization which takes ~ 1.5s
+
+Plan: Use MG90S micro servo instead
+
 # Robot photos
 
 | ![Robot front](v-photos/robot_front.jpg) | ![Robot left](v-photos/robot_left.jpg) | ![Robot right](v-photos/robot_right.jpg) |
