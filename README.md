@@ -224,7 +224,9 @@ For uploading program to EV3 brick we use [pybricksdev](https://github.com/pybri
 - For Mac, use the official Python installer or Homebrew (brew install python@3.12).
 - For Linux, use the distro provided python3.12 or if not available, use a Python runtime version manager such as asdf or pyenv.
 
-`pybricksdev run usb path/to/file`
+```shell
+pybricksdev run usb code/src/open.py
+```
 
 ### Open challenge:
 
