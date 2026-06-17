@@ -11,7 +11,19 @@
 - [Software](#software)
 - [Robot photos](#robot-photos)
 
-
+## Directories structure
+```shell
+WRO_FE_2026_REGIONAL
+├── code            # Our python code(uv project)
+│   └── src         # Main code(open.py, obstacle.py)
+│       └── tests   # Some code to test little things
+├── images          # Images(for docs)
+├── models          # Lego model, Pixy2 cam case
+├── research        # Researches: obstacle, programming
+├── t-photos        # Team photos
+├── v-photos        # Vehicle Photos
+└── README.md       # Main docs file
+```
 
 # The team
 
