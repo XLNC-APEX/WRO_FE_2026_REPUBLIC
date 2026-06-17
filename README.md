@@ -65,6 +65,8 @@ This layered approach allows us to isolate complexity and improve reliability.
 
 # Our Robot
 
+![Robot showcase](images/Robot_showcase.png)
+
 Our robot is a compact autonomous vehicle optimized for **speed, stability, and deterministic behavior**.
 
 ### Key Design Principles
