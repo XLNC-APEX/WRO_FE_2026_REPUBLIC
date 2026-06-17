@@ -12,6 +12,7 @@
 - [Robot photos](#robot-photos)
 
 ## Directories structure
+```shell
 WRO_FE_2026_REGIONAL
 ├── code            # Our python code(uv project)
 │   └── src         # Main code(open.py, obstacle.py)
@@ -22,6 +23,7 @@ WRO_FE_2026_REGIONAL
 ├── t-photos        # Team photos
 ├── v-photos        # Vehicle Photos
 └── README.md       # Main docs file
+```
 
 # The team
 
