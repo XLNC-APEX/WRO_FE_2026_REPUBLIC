@@ -19,7 +19,7 @@
 
 | Karabayev Darkhan | Abenov Sayan |
 | --- | --- |
-| ![Photo](images/Darkhan.jpg) | ![Photo](images/Sayan.jpg) |
+| ![Photo](t-photos/Darkhan.jpg) | ![Photo](t-photos/Sayan.jpg) |
 
 
 
@@ -215,6 +215,6 @@ The Obstacle Challenge is almost identical to the Open Challenge, with the excep
 
 # Robot photos
 
-| ![Robot front](images/robot_front.jpg) | ![Robot left](images/robot_left.jpg) | ![Robot right](images/robot_right.jpg) |
+| ![Robot front](v-photos/robot_front.jpg) | ![Robot left](v-photos/robot_left.jpg) | ![Robot right](v-photos/robot_right.jpg) |
 | --- | --- | --- |
-| ![Robot back](images/robot_back.jpg) | ![Robot bottom](images/robot_bottom.jpg) | ![Robot top](images/robot_top.jpg) |
+| ![Robot back](v-photos/robot_back.jpg) | ![Robot bottom](v-photos/robot_bottom.jpg) | ![Robot top](v-photos/robot_top.jpg) |
