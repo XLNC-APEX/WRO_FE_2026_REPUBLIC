@@ -73,7 +73,6 @@ Our robot is a compact autonomous vehicle optimized for **speed, stability, and 
 - **Mechanical reliability first**  
 
 ### Capabilities
-- Lane following using vision  
 - Obstacle detection and avoidance  
 - Smooth cornering with PID stabilization  
 - Real-time trajectory correction  
@@ -126,9 +125,11 @@ It is powered by medium EV3 motor.
 
 LEGO EV3 gyroscope is used to know robot orientation.
 
-Problem: These gyroscopes drift frequently. 
+Problem: These gyroscopes drift frequently.
+
 Reason: During gyroscope power on, it captures initial angular velocity. Also the error accumulates with time.
-Solution: Power cycle the gyroscope. Pybricks added .calibrate() to reboot ev3 gyro.
+
+Solution: Power cycle the gyroscope. Pybricks added .calibrate() method to reboot ev3 gyro.
 
 
 
@@ -151,7 +152,7 @@ When we started to prepare for WRO we had to choose the platform we are going to
 
 We had a choice of completely custom platform or EV3 we already have.
 
-Custom board requires a to choose components and order them, which can take up to a month of waiting. We have to design and 3d print parts.
+Custom board requires us to choose components and order them, which can take up to a month of waiting. We have to design and 3d print parts.
 Accounting for that, there probably at least a month to just assemble a first version of a robot. We wanted to start fast to spend more time programming.
 
 The EV3 was the fastest to get started with.
@@ -168,7 +169,7 @@ We had a part of the case, but not the front lid. That was an opportunity to lea
 
 ![Pixy 2.1 front lid CAD](images/cading.png)
 
-Camera is fixed on an axle and the viewing angle cna be set using gears.
+Camera is fixed on an axle and the viewing angle can be set using gears.
 
 We set the optimal angle to fit as much field on screen and less noisy world
 
@@ -203,11 +204,17 @@ After careful selection and [research](research/programming_environment_choice.m
 
 For the open challenge, we chose a simple strategy of driving along the outer wall using a gyroscope and ultrasonic sensor. Turn and direction detection occur using a color sensor.
 
-Firstly, the robot starts gyro calibration and angle resets. We reset the steering motor by running it until stalled to the left, to the right, and to the half. Then, a while loop starts until all 12 lines are passed. The car drives forward to the first line. The color sensor recognizes the color, whether it's orange or blue, and based on this, we can determine the direction (orange for clockwise and blue for counter-clockwise) and the right ultrasonic. Since the robot is driving along the outer wall, moving the internal walls won't bother the robot. The running loop operates at a 50 Hz frequency; it's not much, but it's enough to successfully complete the task. We use a PD controller for the gyroscope and a proportional controller for wall detection. By reading the distance from the ultrasound, we take into account the robot's rotation angle and find the perpendicular to the wall. To avoid reacting to the line twice per turn, we have a distance timeout, which is calculated using the rotation angle of the rear motor. Once the passed_lines variable is equal to 12 (which means all 3 laps are finished) the robot drives forward for a set period of time to land in its starting area and stops.
+Firstly, the robot starts gyro calibration and angle resets. We reset the steering motor by running it until stalled to the left, to the right, and to the half. Then, a while loop starts until all 12 lines are passed. The car drives forward to the first line. The color sensor recognizes the color, whether it's orange or blue, and based on this, we can determine the direction (orange for clockwise and blue for counter-clockwise) and the right ultrasonic. Since the robot is driving along the outer wall, moving the internal walls won't bother the robot. The running loop operates at a > 50 Hz frequency; it's not much, but it's enough to successfully complete the task. We use a PD controller for the gyroscope and a proportional controller for wall detection. By reading the distance from the ultrasonic, we take into account the robot's rotation angle and find the perpendicular to the wall. To avoid reacting to the line twice per turn, we have a distance timeout, which is calculated using the rotation angle of the rear motor. Once the passed_lines variable is equal to 12 (which means all 3 laps are finished) the robot drives forward for a set period of time to land in its starting area and stops.
 
 ### Obstacle challenge:
 
-The Obstacle Challenge is almost identical to the Open Challenge, with the exception of a Pixy2 camera correction. When the camera detects an obstacle, gyroscope and ultrasonic correction are disabled, and the robot follows the most optimal trajectory, which we've determined using point-based regression. As a result, the obstacle moves on the camera along an optimal nonlinear trajectory.
+The Obstacle Challenge is similar to the Open Challenge, with the exception of a Pixy2 camera correction as well as parking out.
+
+#### Parking out
+Robot is placed close to the farthest from moving direction parking wall. Then, the car determines the moving direction by the distance from side ultrasonic. 
+The steering wheels rotate fully, car drives while turning, for approximately 800ms.
+
+When the camera detects an obstacle, gyroscope and ultrasonic correction are disabled, and the robot follows the most optimal trajectory, which we've determined using point-based regression. As a result, the obstacle moves on the camera along an optimal nonlinear trajectory.
 
 | **Green obstacle** | **Red obstacle** |
 | --- | --- |
