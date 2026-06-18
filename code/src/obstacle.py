@@ -98,9 +98,9 @@ while passed_lines < 12:
             distance = new_distance
             passed_lines += 1
             if clockwise:
-                steering.increase_target_angle(90)
-            else:
                 steering.increase_target_angle(-90)
+            else:
+                steering.increase_target_angle(90)
             wait(600)
 
     pixy_correction = obstacle_detection.get_correction()
@@ -119,17 +119,16 @@ while passed_lines < 12:
     else:
         rear_motor.run(OBSTACLE_HIGH_SPEED)
 
-    # print(
-    #     "heading:",
-    #     steering.heading,
-    #     "target:",
-    #     steering.target_angle,
-    #     "steer:",
-    #     steering_motor.angle(),
-    #     "rear motor speed:",
-    #     rear_motor.speed()
-    # )
-    # wait(10)
+    print(
+        "heading:",
+        steering.heading,
+        "target:",
+        steering.target_angle,
+        "steer:",
+        steering_motor.angle(),
+        "rear motor speed:",
+        rear_motor.speed()
+    )
     wait(10)
 
 pixy_correction = 0

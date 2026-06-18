@@ -33,7 +33,7 @@ class DistanceKeeper:
 
 
 class DistanceKeeperOneUltrasonic:
-    Kp = 0.3
+    Kp = 0.8
     
     def __init__(self, ultrasonic: UltrasonicSensor):
         self.ultrasonic = ultrasonic
