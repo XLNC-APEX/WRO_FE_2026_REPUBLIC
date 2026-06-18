@@ -15,9 +15,15 @@ class LineDetector:
         g = rgb[1]
         b = rgb[2]
         
-        if sum(rgb) >= 125:
+        # if sum(rgb) >= 123:
+        #     return ColorID.WHITE
+        # elif b >= min(r, g):
+        #     return ColorID.BLUE
+        # else:
+        #     return ColorID.ORANGE
+        if sum(rgb) >= 115:
             return ColorID.WHITE
-        elif b >= min(r, g):
+        elif b > r + 10:
             return ColorID.BLUE
         else:
             return ColorID.ORANGE

@@ -34,8 +34,8 @@ def recognize_color(rgb: tuple[int, int, int]):
         return "ColorID.BLUE"
     else:
         return "ColorID.ORANGE"
-# (24, 37, 50) 
-# (31, 37, 45)
+# (24, 37, 50) blue
+# (31, 37, 45) orange
 
 # (15, 25, 31)
 while True:
