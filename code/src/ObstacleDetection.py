@@ -88,12 +88,12 @@ class ObstacleDetection:
                 Point2D(green.x_center, green.y_center), GREEN_CURVE
             )
 
-        print(
-            "pixy-correction: ",
-            self.correction,
-            "green: ",
-            green_count,
-            "red: ",
-            red_count,
-        )
+        # print(
+        #     "pixy-correction: ",
+        #     self.correction,
+        #     "green: ",
+        #     green_count,
+        #     "red: ",
+        #     red_count,
+        # )
         return self.correction
