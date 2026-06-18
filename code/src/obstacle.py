@@ -1,12 +1,12 @@
 #!/usr/bin/env pybricks-micropython
 from config import (
     CHECK_DISTANCE,
+    MAX_STEER,
     OBSTACLE_COUNTER_GYRO_KP,
     OBSTACLE_GYRO_KP,
     OBSTACLE_HIGH_SPEED,
     OBSTACLE_LOW_SPEED,
     START_CHECK_DISTANCE,
-    MAX_STEER,
 )
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
@@ -14,9 +14,9 @@ from pixy2 import Pixy2
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
-from pybricks.tools import wait, StopWatch
+from pybricks.tools import StopWatch, wait
 from steering import Steering
-from utils import get_distance, ColorID
+from utils import ColorID, get_distance
 from wall_avoidance import DistanceKeeperOneUltrasonic
 
 ev3 = EV3Brick()
@@ -28,7 +28,7 @@ gyro = GyroSensor(Port.S4, direction=Direction.COUNTERCLOCKWISE)
 ultrasonic = UltrasonicSensor(Port.S2)
 color_sensor = ColorSensor(Port.S3)
 camera = Pixy2(port=Port.S1)
-gyro.calibrate() # type: ignore
+gyro.calibrate()  # type: ignore
 
 steering = Steering(motor=steering_motor, gyro=gyro)
 line_checker = LineDetector(color_sensor=color_sensor)
@@ -98,20 +98,19 @@ while passed_lines < 12:
             distance = new_distance
             passed_lines += 1
             if clockwise:
-                steering.increase_target_angle(-90)
-            else:
                 steering.increase_target_angle(90)
-            wait(300)
+            else:
+                steering.increase_target_angle(-90)
+            wait(600)
 
     pixy_correction = obstacle_detection.get_correction()
 
-    if direction_set and not clockwise and pixy_correction == 0:
+    if not clockwise and pixy_correction == 0:
         wall_correction = wall_distance_keeper.correction(
             clockwise, steering.heading, steering.target_angle
         )
     else:
         wall_correction = 0
-
 
     steer = steering.pid(Kp=Kp, pixy=pixy_correction, wall=wall_correction)
 
@@ -132,7 +131,7 @@ while passed_lines < 12:
     # )
     # wait(10)
     wait(10)
-    
+
 pixy_correction = 0
 wall_correction = 0
 

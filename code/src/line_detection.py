@@ -17,7 +17,7 @@ class LineDetector:
         
         # 31 15 14 orange
         # TODO: fix color detection (saturation)
-        if sum(rgb) >= 125:
+        if sum(rgb) >= 128:
             return ColorID.WHITE
         elif b >= min(r, g):
             return ColorID.BLUE
