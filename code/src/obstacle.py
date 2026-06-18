@@ -1,4 +1,9 @@
 #!/usr/bin/env pybricks-micropython
+from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
+from pybricks.hubs import EV3Brick
+from pybricks.parameters import Direction, Port
+from pybricks.tools import StopWatch, wait
+
 from config import (
     CHECK_DISTANCE,
     MAX_STEER,
@@ -9,10 +14,6 @@ from config import (
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
 from pixy2 import Pixy2
-from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
-from pybricks.hubs import EV3Brick
-from pybricks.parameters import Direction, Port
-from pybricks.tools import StopWatch, wait
 from steering import Steering
 from utils import get_distance
 from wall_avoidance import DistanceKeeperOneUltrasonic
@@ -56,7 +57,7 @@ def parking_out():
     while timer.time() - start < 700:
         us_motor.track_target(-90)
     dist = ultrasonic.distance()
-    print(dist)
+    # print(dist)
     if dist > 200:
         # print("cw, steer +max")
         clockwise = True
@@ -82,7 +83,7 @@ def parking_out():
 
 
 clockwise = parking_out()
-print(clockwise)
+# print(clockwise)
 
 # if clockwise:
 #     Kp = OBSTACLE_GYRO_KP
@@ -95,7 +96,8 @@ while passed_lines < 12:
     if (passed_lines == 0) or abs(new_distance - distance) > CHECK_DISTANCE:
         is_turning = False
 
-        if not line_checker.is_line_white():
+        # if not line_checker.is_line_white():
+        if not line_checker.is_line_white_filtered():
             ev3.speaker.beep()
             is_turning = True
             distance = new_distance
@@ -122,16 +124,16 @@ while passed_lines < 12:
     else:
         rear_motor.run(OBSTACLE_HIGH_SPEED)
 
-    print(
-        "heading:",
-        steering.heading,
-        "target:",
-        steering.target_angle,
-        "steer:",
-        steering_motor.angle(),
-        "rear motor speed:",
-        rear_motor.speed()
-    )
+    # print(
+    #     "heading:",
+    #     steering.heading,
+    #     "target:",
+    #     steering.target_angle,
+    #     "steer:",
+    #     steering_motor.angle(),
+    #     "rear motor speed:",
+    #     rear_motor.speed(),
+    # )
     # TODO: remove wait if needed
     # wait(10)
 

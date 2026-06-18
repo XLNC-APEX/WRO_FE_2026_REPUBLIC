@@ -1,6 +1,7 @@
 from pybricks.ev3devices import ColorSensor, UltrasonicSensor
-from utils import ColorID, ColorHSV
+
 from config import N_CONSEQ_COLORS
+from utils import ColorHSV, ColorID
 
 COLOR_ORANGE = ColorHSV(15, 75, 12)  # CMYK (0, 60, 100, 0)
 COLOR_BLUE = ColorHSV(235, 84, 4.8)  # CMYK(100, 80, 0, 0)
@@ -10,8 +11,9 @@ COLOR_BLUE = ColorHSV(235, 84, 4.8)  # CMYK(100, 80, 0, 0)
 class LineDetector:
     def __init__(self, color_sensor: ColorSensor):
         self.color_sensor = color_sensor
-        self.blue_cnt: int = 0
-        self.oran_cnt: int = 0
+        # self.blue_cnt: int = 0
+        # self.oran_cnt: int = 0
+        self.non_white_cnt: int = 0
 
     def recognize_color(self, rgb: tuple[int, int, int]) -> int:
         r = rgb[0]
@@ -51,12 +53,11 @@ class LineDetector:
     #     if (color.s < 60) or (color.v > 21):
     #         return ColorID.WHITE
     #     return ColorID.BLUE
-    
-    
+
     def is_line_white(self) -> bool:
         rgb = self.color_sensor.rgb()
         r, g, b = rgb
-        print(rgb)
+        # print(rgb)
         
         if sum(rgb) < 40:
             return False
@@ -71,26 +72,35 @@ class LineDetector:
         print("rgb: ", color)
         return self.recognize_color(color)
 
-    def filter_color(self, color: int) -> int:
-        if color == ColorID.BLUE:
-            self.oran_cnt = 0
-            self.blue_cnt += 1
-            if self.blue_cnt >= N_CONSEQ_COLORS:
-                return ColorID.BLUE
-        elif color == ColorID.ORANGE:
-            self.blue_cnt = 0
-            self.oran_cnt += 1
-            if self.oran_cnt >= N_CONSEQ_COLORS:
-                return ColorID.ORANGE
-        else:  # WHITE
-            self.oran_cnt = 0
-            self.blue_cnt = 0
-        return ColorID.WHITE
+    def is_line_white_filtered(self) -> bool:
+        if not self.is_line_white():
+            self.non_white_cnt += 1
+            if self.non_white_cnt >= N_CONSEQ_COLORS:
+                return False
+        else:
+            self.non_white_cnt = 0
+        return True
 
-    def check_line_filtered(self):
-        color = self.color_sensor.rgb()
-        # print("rgb: ", color)
-        return self.filter_color(self.recognize_color(color))
+    # def filter_color(self, color: int) -> int:
+    #     if color == ColorID.BLUE:
+    #         self.oran_cnt = 0
+    #         self.blue_cnt += 1
+    #         if self.blue_cnt >= N_CONSEQ_COLORS:
+    #             return ColorID.BLUE
+    #     elif color == ColorID.ORANGE:
+    #         self.blue_cnt = 0
+    #         self.oran_cnt += 1
+    #         if self.oran_cnt >= N_CONSEQ_COLORS:
+    #             return ColorID.ORANGE
+    #     else:  # WHITE
+    #         self.oran_cnt = 0
+    #         self.blue_cnt = 0
+    #     return ColorID.WHITE
+
+    # def check_line_filtered(self):
+    # color = self.color_sensor.rgb()
+    # print("rgb: ", color)
+    # return self.filter_color(self.recognize_color(color))
 
 
 # class LineDetectorObstacle:
