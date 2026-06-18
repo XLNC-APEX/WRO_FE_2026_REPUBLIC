@@ -4,7 +4,7 @@ from utils import Curve2D, Point2D
 
 CAM_WIDTH = 316
 CAM_HEIGHT = 208
-Kp = 1.7
+OBS_PIXY_KP = 1.7
 # v1
 # RED_LINE = Line2D(-1.206, 172.5)
 # GREEN_LINE = Line2D(1.747, -364.8)
@@ -59,7 +59,7 @@ class ObstacleDetection:
 
     def _calculate_correction(self, p: Point2D, curve: Curve2D) -> float:
         # Simple x error instead of perpendicular, it is easier to compute and is proportional? to perp.
-        return (curve.get_x(p.y) - p.x) * Kp
+        return (curve.get_x(p.y) - p.x) * OBS_PIXY_KP
 
     def get_correction(self):
         self.update()
