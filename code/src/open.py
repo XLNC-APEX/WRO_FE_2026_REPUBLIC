@@ -6,7 +6,7 @@ from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
 from pybricks.tools import wait
 from steering import Steering
-from utils import get_distance, ColorID
+from utils import get_distance, ColorID, get_wait
 from wall_avoidance import DistanceKeeper
 
 ev3 = EV3Brick()
@@ -39,15 +39,22 @@ is_turning = False
 clockwise = True
 correction = 0
 
+left = ultrasonic_left.distance()
+right = ultrasonic_right.distance()
+
+print(left, right)
+
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
     if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
         if line != ColorID.WHITE and not direction_set:
             direction_set = True
-            wait(600)
             if line == ColorID.BLUE:
                 clockwise = False
+            # wait(get_wait(clockwise, left, right))
+            print(get_wait(clockwise, left, right))
+            wait(600)
 
         is_turning = False
 
