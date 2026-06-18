@@ -1,5 +1,5 @@
 from utils import find_perpendicular
-from config import SAFE_DISTANCE_FROM_WALLS
+from config import OPEN_SAFE_DISTANCE_FROM_WALLS, OBSTACLE_SAFE_DISTANCE_FROM_WALLS
 from pybricks.ev3devices import UltrasonicSensor
 
 
@@ -20,7 +20,7 @@ class DistanceKeeper:
         #     error = 0
         # else:
         d = find_perpendicular(heading, d, target)
-        error = SAFE_DISTANCE_FROM_WALLS - d
+        error = OPEN_SAFE_DISTANCE_FROM_WALLS - d
         # print("ultrasonic:", d)
 
         if clockwise:
@@ -44,7 +44,7 @@ class DistanceKeeperOneUltrasonic:
             error = 0
         else:
             d = find_perpendicular(heading, d, target)
-            error = SAFE_DISTANCE_FROM_WALLS - d
+            error = OBSTACLE_SAFE_DISTANCE_FROM_WALLS - d
 
         if clockwise:
             error *= -1

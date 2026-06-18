@@ -91,6 +91,8 @@ while passed_lines < 12:
         new_distance,
         "Is tunring:",
         is_turning,
+        "Speed:",
+        rear_motor.speed()
     )
     wait(20)
 
