@@ -1,7 +1,6 @@
 #!/usr/bin/env pybricks-micropython
 from config import (
     CHECK_DISTANCE,
-    MAX_STEER,
     OBSTACLE_COUNTER_GYRO_KP,
     OBSTACLE_GYRO_KP,
     OBSTACLE_HIGH_SPEED,
@@ -54,8 +53,6 @@ pixy_correction = 0
 def parking_out():
     dist = ultrasonic.distance()
     print(dist)
-    print(dist)
-    print(dist)
     if dist > 200:
         print("cw, steer +max")
         clockwise = True
@@ -64,7 +61,6 @@ def parking_out():
         print("ccw, steer -max")
         clockwise = False
         steering_motor.track_target(45)
-    direction_set = True
     wait(200)
     rear_motor.run(OBSTACLE_HIGH_SPEED)
     timer = StopWatch()
@@ -88,7 +84,7 @@ else:
 
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
-    if (passed_lines <= 1) or abs(new_distance - distance) > CHECK_DISTANCE:
+    if (passed_lines == 0) or abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
         is_turning = False
 
@@ -103,8 +99,7 @@ while passed_lines < 12:
                 steering.increase_target_angle(90)
             wait(300)
 
-    # pixy_correction = obstacle_detection.get_correction()
-    pixy_correction = 0
+    pixy_correction = obstacle_detection.get_correction()
 
     if not clockwise and pixy_correction == 0:
         wall_correction = wall_distance_keeper.correction(
@@ -115,7 +110,7 @@ while passed_lines < 12:
 
     steer = steering.pid(Kp=Kp, pixy=pixy_correction, wall=wall_correction)
 
-    if abs(steer) > 20 or abs(pixy_correction) > 0 and not is_turning:
+    if abs(steer) > 20 or abs(pixy_correction) > 0 or is_turning:
         rear_motor.run(OBSTACLE_LOW_SPEED)
     else:
         rear_motor.run(OBSTACLE_HIGH_SPEED)
@@ -138,10 +133,13 @@ wall_correction = 0
 rear_motor.run(OBSTACLE_LOW_SPEED)
 finish_dist = get_distance(rear_motor)
 while abs(get_distance(rear_motor) - finish_dist) < 2000:
-    wall_correction = wall_distance_keeper.correction(
-        clockwise, steering.heading, steering.target_angle
-    )
     pixy_correction = obstacle_detection.get_correction()
+    if not clockwise and pixy_correction == 0:
+        wall_correction = wall_distance_keeper.correction(
+            clockwise, steering.heading, steering.target_angle
+        )
+    else:
+        wall_correction = 0
     steering.pid(Kp=Kp, wall=wall_correction, pixy=pixy_correction)
 
 rear_motor.stop()
