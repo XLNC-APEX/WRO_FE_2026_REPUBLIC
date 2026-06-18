@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE, OPEN_HIGH_SPEED, OPEN_LOW_SPEED
+from config import CHECK_DISTANCE, OPEN_HIGH_SPEED, OPEN_LOW_SPEED, OPEN_GYRO_KP
 from line_detection import LineDetector
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
@@ -70,30 +70,31 @@ while passed_lines < 12:
         )
     else:
         correction = 0
+        
 
-    steer = steering.pid(wall=correction)
+    steer = steering.pid(Kp=OPEN_GYRO_KP, wall=correction)
 
     if abs(steer) > 20:
         rear_motor.run(OPEN_LOW_SPEED)
     else:
         rear_motor.run(OPEN_HIGH_SPEED)
 
-    print(
-        "heading:",
-        steering.heading,
-        "target:",
-        steering.target_angle,
-        "steer:",
-        steering_motor.angle(),
-        "color:",
-        line,
-        "distance:",
-        new_distance,
-        "Is tunring:",
-        is_turning,
-        "Speed:",
-        rear_motor.speed()
-    )
+    # print(
+    #     "heading:",
+    #     steering.heading,
+    #     "target:",
+    #     steering.target_angle,
+    #     "steer:",
+    #     steering_motor.angle(),
+    #     "color:",
+    #     line,
+    #     "distance:",
+    #     new_distance,
+    #     "Is tunring:",
+    #     is_turning,
+    #     "Speed:",
+    #     rear_motor.speed()
+    # )
     wait(20)
 
 rear_motor.run(OPEN_LOW_SPEED)
@@ -102,7 +103,7 @@ while abs(get_distance(rear_motor) - finish_dist) < 2000:
     correction = wall_distance_keeper.correction(
         clockwise, steering.heading, steering.target_angle
     )
-    steering.pid(wall=correction)
+    steering.pid(Kp=OPEN_GYRO_KP, wall=correction)
 
 rear_motor.stop()
 

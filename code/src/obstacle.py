@@ -1,6 +1,8 @@
 #!/usr/bin/env pybricks-micropython
 from config import (
     CHECK_DISTANCE,
+    OBSTACLE_COUNTER_GYRO_KP,
+    OBSTACLE_GYRO_KP,
     OBSTACLE_HIGH_SPEED,
     OBSTACLE_LOW_SPEED,
     START_CHECK_DISTANCE,
@@ -79,6 +81,11 @@ def parking_out():
 
 parking_out()
 
+if clockwise:
+    Kp = OBSTACLE_GYRO_KP
+else:
+    Kp = OBSTACLE_COUNTER_GYRO_KP
+
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
     if abs(new_distance - distance) > CHECK_DISTANCE:
@@ -105,7 +112,8 @@ while passed_lines < 12:
     else:
         wall_correction = 0
 
-    steer = steering.pid(pixy=pixy_correction, wall=wall_correction)
+
+    steer = steering.pid(Kp=Kp, pixy=pixy_correction, wall=wall_correction)
 
     if abs(steer) > 20 or abs(pixy_correction) > 0 and not is_turning:
         rear_motor.run(OBSTACLE_LOW_SPEED)
@@ -135,7 +143,7 @@ while abs(get_distance(rear_motor) - finish_dist) < 2000:
         clockwise, steering.heading, steering.target_angle
     )
     pixy_correction = obstacle_detection.get_correction()
-    steering.pid(wall=wall_correction, pixy=pixy_correction)
+    steering.pid(Kp=Kp, wall=wall_correction, pixy=pixy_correction)
 
 rear_motor.stop()
 
