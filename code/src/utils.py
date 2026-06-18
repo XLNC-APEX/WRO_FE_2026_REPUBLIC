@@ -1,7 +1,8 @@
 import math
 
-from config import WHEEL_DIAMETER
 from pybricks.ev3devices import Motor
+
+from config import WHEEL_DIAMETER
 
 
 def constrain(x, low, high):
@@ -92,12 +93,12 @@ class ColorHSV:
         v = cmaxf * 100.0
 
         return ColorHSV(h, s, v)
-
-    def scale_rgb(rgb: tuple[int, int, int]) -> tuple[int, int, int]:
-        rgb[0] *= 2.55
-        rgb[1] *= 2.55
-        rgb[2] *= 2.55
-        return rgb
+    
+    # def scale_rgb(self, rgb: tuple[float, float, float]) -> tuple[float, float, float]:
+    #     rgb[0] *= 2.55
+    #     rgb[1] *= 2.55
+    #     rgb[2] *= 2.55
+    #     return rgb
 
     def __str__(self) -> str:
         return f"h: {float(self.h)} s: {float(self.s)} v: {float(self.v)}"
