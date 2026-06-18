@@ -45,7 +45,7 @@ while passed_lines < 12:
         line = line_checker.check_line()
         if line != ColorID.WHITE and not direction_set:
             direction_set = True
-            wait(300)
+            wait(600)
             if line == ColorID.BLUE:
                 clockwise = False
 
