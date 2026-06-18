@@ -244,9 +244,73 @@ The steering wheels rotate fully, car drives while turning, for approximately 80
 
 When the camera detects an obstacle, gyroscope and ultrasonic correction are disabled, and the robot follows the most optimal trajectory, which we've determined using point-based regression. As a result, the obstacle moves on the camera along an optimal nonlinear trajectory.
 
+```python
+#Code highlights
+#code/src/ObstacleDetection.py
+RED_CURVE = Curve2D(0.007155, -1.865848, 124.599494)
+GREEN_CURVE = Curve2D(-0.007322, 1.880561, 187.050712)
+
+#code/src/obstacle.py
+
+obstacle_detection = ObstacleDetection(camera)
+
+pixy_correction = obstacle_detection.get_correction()
+
+steering.pid(pixy=pixy_correction, wall=wall_correction)
+```
+
 | **Green obstacle** | **Red obstacle** |
 | --- | --- |
 | ![Red obstacle trajectory](research/obstacle/red-nonlinear-regression.png) | ![Green obstacle trajectory](research/obstacle/green-nonlinear-regression.png) |
+
+#### Obstacle filtering
+Camera captures some out of field environment areas, as well as can be noisy and detect small blocks.
+
+Filtering Blocks helps to reduce false positives. 
+
+```python
+#code/src/ObstacleDetection.py
+
+def filter(block: Block) -> bool:
+    if (block.height * block.width) > MIN_OBSTACLE_AREA:
+        if crop_filter(block.x_center, block.y_center):
+            return True
+    return False
+
+
+def crop_filter(x: int, y: int) -> bool:
+    H_CROP = 10
+
+    V_TOP_CROP = 35
+    V_BOTTOM_CROP = 38
+    if (x > H_CROP) and (x < (CAM_WIDTH - H_CROP)):
+        if y > V_TOP_CROP:
+            if y < (CAM_HEIGHT - V_BOTTOM_CROP):
+                return True
+    return False
+```
+
+We crop the view as well as discard too small blocks.
+
+# Future plans & Problems
+
+## Problems
+ - Pixy2 is unstable, feature limited, power inefficient(heats up)
+
+Plan: Try OpenMV H7 camera. It is programmable.
+
+ - EV3 platform has limitations
+    - low amount of ports
+    - Limited programming ability
+    - Big size and weight
+    - Big slow motor
+
+Plan: Build a robot with best available components like Pi Pico 2 microcontroller
+([We already built it](https://github.com/XLNC-APEX/WRO_FE_2026_NATIONAL), but did not have time to program and document it)
+
+ - Steering using EV3 medium motor requires finding extreme angles at initialization which takes ~ 1.5s
+
+Plan: Use MG90S micro servo instead
 
 # Robot photos
 
