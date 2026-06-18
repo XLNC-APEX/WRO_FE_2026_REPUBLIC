@@ -52,7 +52,7 @@ class LineDetector:
 
     def check_line(self):
         color = self.color_sensor.rgb()
-        # print("rgb: ", color)
+        print("rgb: ", color)
         return self.recognize_color(color)
 
 

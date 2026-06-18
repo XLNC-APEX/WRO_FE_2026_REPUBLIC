@@ -88,7 +88,7 @@ else:
 
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
-    if abs(new_distance - distance) > CHECK_DISTANCE:
+    if (passed_lines <= 1) or abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
         is_turning = False
 
@@ -101,9 +101,10 @@ while passed_lines < 12:
                 steering.increase_target_angle(-90)
             else:
                 steering.increase_target_angle(90)
-            wait(600)
+            wait(300)
 
-    pixy_correction = obstacle_detection.get_correction()
+    # pixy_correction = obstacle_detection.get_correction()
+    pixy_correction = 0
 
     if not clockwise and pixy_correction == 0:
         wall_correction = wall_distance_keeper.correction(
