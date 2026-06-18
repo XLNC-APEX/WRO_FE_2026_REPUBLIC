@@ -228,6 +228,14 @@ For uploading program to EV3 brick we use [pybricksdev](https://github.com/pybri
 pybricksdev run usb code/src/open.py
 ```
 
+### Pixy2 calibration
+
+The Pixy2 camera is configured through the official PixyMon software. You need to connect the camera to your computer via the Micro-USB port to access the video and settings. By pressing and holding the white button, the camera enters teaching mode, and obstacle detection can be configured.
+
+For more precise detection, signature ranges and camera brightness in settings need to be adjusted, and the Auto White Balance option should be switched off.
+
+For more information, visit [Pixy Docs](https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:teach_pixy_an_object_2).
+
 ### Open challenge:
 
 For the open challenge, we chose a simple strategy of driving along the outer wall using a gyroscope and ultrasonic sensor. Turn and direction detection occur using a color sensor.
