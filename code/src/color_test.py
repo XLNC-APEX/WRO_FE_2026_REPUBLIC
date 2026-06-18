@@ -8,6 +8,7 @@ from pybricks.ev3devices import (
     UltrasonicSensor,
 )
 from pybricks.hubs import EV3Brick
+from line_detection import LineDetector
 
 # from pybricks.media.ev3dev import SoundFile
 from pybricks.parameters import Button, Color, Direction, Port, Stop
@@ -21,23 +22,25 @@ color_sensor = ColorSensor(Port.S3)
 # WHITE = (30, 30, 77)
 # BLUE = (7, 10, 20)
 
-
-def recognize_color(rgb: tuple[int, int, int]):
-    r = rgb[0]
-    g = rgb[1]
-    b = rgb[2]
+line_detector = LineDetector(color_sensor=color_sensor)
 
 
-    if sum(rgb) >= 55:
-        return "white"
-    elif b >= max(r, g):
-        return "blue"
-    else:
-        return "orange"
+# def recognize_color(rgb: tuple[int, int, int]):
+#     r = rgb[0]
+#     g = rgb[1]
+#     b = rgb[2]
+
+
+#     if sum(rgb) >= 125:
+#         return "white"
+#     elif b >= max(r, g):
+#         return "blue"
+#     else:
+#         return "orange"
 
 
 
 while True:
     color = color_sensor.rgb()
-    print(color, recognize_color(color))
+    print(color, line_detector.recognize_color(color))
     wait(500)
