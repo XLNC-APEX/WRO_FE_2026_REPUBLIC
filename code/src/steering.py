@@ -31,7 +31,7 @@ class Steering:
         self.motor.reset_angle(0)
         self.gyro.reset_angle(0)
 
-    def pid(self, Kp, pixy=0.0, wall=0.0):
+    def pid(self, Kp=0.8, pixy=0.0, wall=0.0):
         current_time = self.timer.time() / 1000
         dt = current_time - self.last_time
         self.last_time = current_time
