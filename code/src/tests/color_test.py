@@ -28,16 +28,17 @@ def recognize_color(rgb: tuple[int, int, int]):
     b = rgb[2]
 
 
-    if sum(rgb) >= 55:
-        return "white"
-    elif b >= max(r, g):
-        return "blue"
+    if sum(rgb) >= 125:
+        return "ColorID.WHITE"
+    elif b * 0.5 > min(r, g):
+        return "ColorID.BLUE"
     else:
-        return "orange"
+        return "ColorID.ORANGE"
+# (24, 37, 50) 
+# (31, 37, 45)
 
-
-
+# (15, 25, 31)
 while True:
     color = color_sensor.rgb()
     print(color, recognize_color(color))
-    wait(500)
+    wait(50)

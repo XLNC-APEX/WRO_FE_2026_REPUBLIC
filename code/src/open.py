@@ -52,9 +52,9 @@ while passed_lines < 12:
             direction_set = True
             if line == ColorID.BLUE:
                 clockwise = False
-            # wait(get_wait(clockwise, left, right))
-            print(get_wait(clockwise, left, right))
-            wait(600)
+            wait(get_wait(clockwise, right, left))
+            print(get_wait(clockwise, right, left))
+            # wait(600)
 
         is_turning = False
 

@@ -130,5 +130,5 @@ def get_wait(cw: bool, right: float, left: float) -> float:
 		dist = left
 	else:
 		dist = right
-	wt = dist * 0.7
+	wt = dist * 1.7
 	return wt
