@@ -125,6 +125,7 @@ while passed_lines < 12:
         "rear motor speed:",
         rear_motor.speed()
     )
+    # TODO: remove wait if needed
     wait(10)
 
 pixy_correction = 0

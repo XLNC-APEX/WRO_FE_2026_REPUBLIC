@@ -51,6 +51,19 @@ class LineDetector:
     #     if (color.s < 60) or (color.v > 21):
     #         return ColorID.WHITE
     #     return ColorID.BLUE
+    
+    
+    def is_line_white(self) -> bool:
+        rgb = self.color_sensor.rgb()
+        r, g, b = rgb
+        
+        if sum(rgb) < 40:
+            return False
+        
+        if b > r:
+            return True
+        else:
+            return False
 
     def check_line(self):
         color = self.color_sensor.rgb()

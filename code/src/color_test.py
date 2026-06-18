@@ -18,9 +18,9 @@ ev3 = EV3Brick()
 
 color_sensor = ColorSensor(Port.S3)
 
-# ORANGE = (28, 12, 9)
-# WHITE = (30, 30, 77)
-# BLUE = (7, 10, 20)
+# ORANGE = (28, 12, 9)% (71.4, 30.6, 22.95) 0.68
+# WHITE = (30, 30, 77)% (76.5, 76.5, 196.35) 0.61
+# BLUE = (7, 10, 20)% (17.85, 25.5, 51) 0.65
 
 line_detector = LineDetector(color_sensor=color_sensor)
 
@@ -42,5 +42,6 @@ line_detector = LineDetector(color_sensor=color_sensor)
 
 while True:
     color = color_sensor.rgb()
-    print(color, line_detector.recognize_color(color))
+    # print(color, line_detector.recognize_color(color))
+    print(color, f"is white: {line_detector.is_line_white()}")
     wait(500)
