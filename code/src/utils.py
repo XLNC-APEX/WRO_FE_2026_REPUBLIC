@@ -93,6 +93,12 @@ class ColorHSV:
 
         return ColorHSV(h, s, v)
 
+    def scale_rgb(rgb: tuple[int, int, int]) -> tuple[int, int, int]:
+        rgb[0] *= 2.55
+        rgb[1] *= 2.55
+        rgb[2] *= 2.55
+        return rgb
+
     def __str__(self) -> str:
         return f"h: {float(self.h)} s: {float(self.s)} v: {float(self.v)}"
 

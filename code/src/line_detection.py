@@ -1,5 +1,6 @@
 from pybricks.ev3devices import ColorSensor, UltrasonicSensor
 from utils import ColorID, ColorHSV
+from config import N_CONSEQ_COLORS
 
 COLOR_ORANGE = ColorHSV(15, 75, 12)  # CMYK (0, 60, 100, 0)
 COLOR_BLUE = ColorHSV(235, 84, 4.8)  # CMYK(100, 80, 0, 0)
@@ -9,12 +10,14 @@ COLOR_BLUE = ColorHSV(235, 84, 4.8)  # CMYK(100, 80, 0, 0)
 class LineDetector:
     def __init__(self, color_sensor: ColorSensor):
         self.color_sensor = color_sensor
+        self.blue_cnt: int = 0
+        self.oran_cnt: int = 0
 
     def recognize_color(self, rgb: tuple[int, int, int]) -> int:
         r = rgb[0]
         g = rgb[1]
         b = rgb[2]
-        
+
         # 31 15 14 orange
         # TODO: fix color detection (saturation)
         if sum(rgb) >= 120:
@@ -23,7 +26,6 @@ class LineDetector:
             return ColorID.BLUE
         else:
             return ColorID.ORANGE
-
 
         # if sum(rgb) >= 100:
         #     return ColorID.WHITE
@@ -55,6 +57,27 @@ class LineDetector:
         print("rgb: ", color)
         return self.recognize_color(color)
 
+    def filter_color(self, color: int) -> int:
+        if color == ColorID.BLUE:
+            self.oran_cnt = 0
+            self.blue_cnt += 1
+            if self.blue_cnt >= N_CONSEQ_COLORS:
+                return ColorID.BLUE
+        elif color == ColorID.ORANGE:
+            self.blue_cnt = 0
+            self.oran_cnt += 1
+            if self.oran_cnt >= N_CONSEQ_COLORS:
+                return ColorID.ORANGE
+        else:  # WHITE
+            self.oran_cnt = 0
+            self.blue_cnt = 0
+        return ColorID.WHITE
+
+    def check_line_filtered(self):
+        color = self.color_sensor.rgb()
+        # print("rgb: ", color)
+        return self.filter_color(self.recognize_color(color))
+
 
 # class LineDetectorObstacle:
 #     # def __init__(self, ultrasonic_left: UltrasonicSensor, ultrasonic_right: UltrasonicSensor) -> None:
@@ -62,8 +85,7 @@ class LineDetector:
 #     #     self.ultrasonic_right = ultrasonic_right
 
 # TRIGGER_DISTANCE = 1500
-    
+
 # def check_line_obstacle(dist_left, dist_right):
 #     if dist_left > TRIGGER_DISTANCE or dist_right > TRIGGER_DISTANCE:
 #         return True
-    
