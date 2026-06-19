@@ -59,7 +59,7 @@ class LineDetector:
         r, g, b = rgb
         # print(rgb)
         
-        if sum(rgb) < 40:
+        if sum(rgb) < 50:
             return False
         
         if b > r:

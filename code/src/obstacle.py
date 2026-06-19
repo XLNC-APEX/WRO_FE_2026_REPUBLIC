@@ -71,7 +71,7 @@ def parking_out():
     timer = StopWatch()
     start = timer.time()
     # TODO: check duration
-    while timer.time() - start < 800:
+    while timer.time() - start < 600:
         if clockwise:
             steering_motor.track_target(-45)
         else:
@@ -90,7 +90,6 @@ clockwise = parking_out()
 # else:
 #     Kp = OBSTACLE_COUNTER_GYRO_KP
 
-
 while passed_lines < 12:
     new_distance = get_distance(rear_motor)
     if (passed_lines == 0) or abs(new_distance - distance) > CHECK_DISTANCE:
@@ -106,16 +105,17 @@ while passed_lines < 12:
                 steering.increase_target_angle(-90)
             else:
                 steering.increase_target_angle(90)
-            wait(300)
+            # wait(2000)
 
-    pixy_correction = obstacle_detection.get_correction()
+    # pixy_correction = obstacle_detection.get_correction()
+    pixy_correction = 0
 
-    if pixy_correction == 0:
-        wall_correction = wall_distance_keeper.correction(
-            clockwise, steering.heading, steering.target_angle
-        )
-    else:
-        wall_correction = 0
+    # if pixy_correction == 0:
+    #     # wall_correction = wall_distance_keeper.correction(
+    #     #     clockwise, steering.heading, steering.target_angle
+    #     # )
+    # else:
+    #     wall_correction = 0
 
     steer = steering.pid(Kp=OBSTACLE_GYRO_KP, pixy=pixy_correction, wall=wall_correction)
 
