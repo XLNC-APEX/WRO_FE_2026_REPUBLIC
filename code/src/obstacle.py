@@ -78,7 +78,7 @@ def parking_out():
             steering_motor.track_target(45)
     # print(steering_motor.angle())
 
-    wait(100)
+    # wait(100)
     return clockwise
 
 
