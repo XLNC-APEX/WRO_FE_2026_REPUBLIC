@@ -96,7 +96,8 @@ while passed_lines < 12:
         is_turning = False
 
         # if not line_checker.is_line_white():
-        if not line_checker.is_line_white_filtered():
+        # if not line_checker.is_line_white_filtered():
+        if not line_checker.is_white_v():
             ev3.speaker.beep()
             is_turning = True
             distance = new_distance
@@ -105,17 +106,17 @@ while passed_lines < 12:
                 steering.increase_target_angle(-90)
             else:
                 steering.increase_target_angle(90)
-            # wait(2000)
+            wait(300)
 
-    # pixy_correction = obstacle_detection.get_correction()
-    pixy_correction = 0
+    pixy_correction = obstacle_detection.get_correction()
+    # pixy_correction = 0
 
-    # if pixy_correction == 0:
-    #     # wall_correction = wall_distance_keeper.correction(
-    #     #     clockwise, steering.heading, steering.target_angle
-    #     # )
-    # else:
-    #     wall_correction = 0
+    if pixy_correction == 0:
+        wall_correction = wall_distance_keeper.correction(
+            clockwise, steering.heading, steering.target_angle
+        )
+    else:
+        wall_correction = 0
 
     steer = steering.pid(Kp=OBSTACLE_GYRO_KP, pixy=pixy_correction, wall=wall_correction)
 

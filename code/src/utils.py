@@ -130,3 +130,20 @@ class ColorID:
     WHITE = 0
     ORANGE = 1
     BLUE = 2
+
+
+def clr_print(color: int) -> str:
+    if color == ColorID.WHITE:
+        return "White"
+    elif color == ColorID.ORANGE:
+        return "Orange"
+    else:
+        return "Blue"
+
+
+def color_dist_squared(c1: tuple[int, int, int], c2: tuple[int, int, int]) -> int:
+    return (
+        (c2[0] - c1[0]) * (c2[0] - c1[0])
+        + (c2[1] - c1[1]) * (c2[1] - c1[1])
+        + (c2[2] - c1[2]) * (c2[2] - c1[2])
+    )

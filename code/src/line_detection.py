@@ -1,7 +1,7 @@
 from pybricks.ev3devices import ColorSensor, UltrasonicSensor
 
-from config import N_CONSEQ_COLORS
-from utils import ColorHSV, ColorID
+from config import BLUE_COLOR, MIN_COLOR_DIST_SQUARED, N_CONSEQ_COLORS, ORANGE_COLOR
+from utils import ColorHSV, ColorID, color_dist_squared
 
 COLOR_ORANGE = ColorHSV(15, 75, 12)  # CMYK (0, 60, 100, 0)
 COLOR_BLUE = ColorHSV(235, 84, 4.8)  # CMYK(100, 80, 0, 0)
@@ -58,10 +58,10 @@ class LineDetector:
         rgb = self.color_sensor.rgb()
         r, g, b = rgb
         # print(rgb)
-        
+
         if sum(rgb) < 50:
             return False
-        
+
         if b > r:
             return True
         else:
@@ -80,6 +80,25 @@ class LineDetector:
         else:
             self.non_white_cnt = 0
         return True
+    
+    def is_white_v(self) -> bool:
+        rgb = self.color_sensor.rgb()
+        clr = self.match_vector_color(rgb)
+        return clr == ColorID.WHITE
+        
+
+    def match_vector_color(self, rgb: tuple[int, int, int]) -> int:
+        blue_dist = color_dist_squared(BLUE_COLOR, rgb)
+        oran_dist = color_dist_squared(ORANGE_COLOR, rgb)
+        if blue_dist < MIN_COLOR_DIST_SQUARED:
+            if oran_dist < blue_dist:
+                return ColorID.ORANGE
+            return ColorID.BLUE
+        if oran_dist < MIN_COLOR_DIST_SQUARED:
+            if blue_dist < oran_dist:
+                return ColorID.BLUE
+            return ColorID.ORANGE
+        return ColorID.WHITE
 
     # def filter_color(self, color: int) -> int:
     #     if color == ColorID.BLUE:

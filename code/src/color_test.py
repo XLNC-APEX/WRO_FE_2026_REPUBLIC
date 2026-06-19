@@ -54,11 +54,14 @@ def is_line_white(rgb: tuple[float, float, float]) -> bool:
 
 
 while True:
-    # color = color_sensor.rgb()
-    # print(color, line_detector.recognize_color(color))
-    print(f"is white: {line_detector.is_line_white()}")
+    color = color_sensor.rgb()
+    print(color, line_detector.recognize_color(color))
+    # print(f"is white: {line_detector.is_line_white()}")
     wait(34)
 # colors = [(10, 16, 27), (31, 15, 14), (31, 37, 45), (24, 38, 50), (30, 39, 66)]
 # colors = [(r * 2.55, g * 2.55, b * 2.55) for r, g, b in colors]
 
 # print([is_line_white(rgb) for rgb in colors])
+# 9 14 27
+# 31 15 15
+# 31 43 69
